@@ -9,8 +9,16 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String role;
+
+    public Collection<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<User> users) {
+        this.users = users;
+    }
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Collection<User> users;
@@ -19,7 +27,7 @@ public class Role {
 
     }
 
-    public Role(String role){
+    public Role(String role) {
         this.role = role;
     }
 

@@ -15,13 +15,14 @@ import java.util.Set;
 @Service
 public class SSUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
-    public SSUserDetailsService(UserRepository userRepository){
+
+    public SSUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws
-            UsernameNotFoundException{
+            UsernameNotFoundException {
         try {
             User appUser = userRepository.findByUsername(username);
 
@@ -32,23 +33,23 @@ public class SSUserDetailsService implements UserDetailsService {
             }
             System.out.println("User from username " + appUser.toString());
             return new CustomUserDetails(appUser, getAuthorities(appUser));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new UsernameNotFoundException("User not found");
         }
     }
-        private Set<GrantedAuthority> getAuthorities(User appUser){
-            Set<GrantedAuthority> authorities = new HashSet<>();
 
-            for(Role role : appUser.getRoles()){
-                GrantedAuthority grantedAuthority =
-                        new SimpleGrantedAuthority(role.getRole());
-                authorities.add(grantedAuthority);
-            }
+    private Set<GrantedAuthority> getAuthorities(User appUser) {
+        Set<GrantedAuthority> authorities = new HashSet<>();
 
-            System.out.println("User authorities are " + authorities.toString());
-            return authorities;
-
+        for (Role role : appUser.getRoles()) {
+            GrantedAuthority grantedAuthority =
+                    new SimpleGrantedAuthority(role.getRole());
+            authorities.add(grantedAuthority);
         }
+
+        System.out.println("User authorities are " + authorities.toString());
+        return authorities;
+
     }
+}
 

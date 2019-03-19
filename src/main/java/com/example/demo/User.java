@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name="User_Data")
+@Table(name = "User_Data")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,8 +33,19 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-            private Collection<Role> roles;
+    private Collection<Role> roles;
+
     public User() {
+    }
+
+    public User(String email, String password, String firstName,
+                String lastName, boolean enabled, String username) {
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setEnabled(enabled);
+        this.setUsername(username);
     }
 
     public long getId() {
@@ -93,16 +104,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public User(String email, String password, String firstName,
-                String lastName, boolean enabled, String username){
-        this.setEmail(email);
-        this.setPassword(password);
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setEnabled(enabled);
-        this.setUsername(username);
     }
 
     public Collection<Role> getRoles() {
