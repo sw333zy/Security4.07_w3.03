@@ -70,6 +70,7 @@ public class HomeController {
         //new code for merger
         if(userService.getUser() != null){
             model.addAttribute("user_id", userService.getUser().getId());
+            System.out.println("user id is" + userService.getUser().getId());
         }
         return "list";
     }
@@ -86,6 +87,8 @@ public class HomeController {
         if(result.hasErrors()){
             return "courseform";
         }
+        //be sure to set the user
+        course.setUser(userService.getUser());
         courseRepository.save(course);
         return "redirect:/";
     }
